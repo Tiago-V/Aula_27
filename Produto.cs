@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 
 namespace Aulas_27_28_29_30
@@ -10,15 +11,20 @@ namespace Aulas_27_28_29_30
 
         //Caminho
         private const string PATH = "Database/produto.csv";
-        
+        private const string Pasta = "C:/Users/User/Desktop/EAD SENAI/EAD DEV/Aula_27_28_29_30/Aulas_27_28_29_30/Database/";
+
         public Produto()
         {
+            //Cria o arquivo caso não exista
+            if(!Directory.Exists(Pasta))
+            {
+                Directory.CreateDirectory(Pasta);
+            }
             //Cria o arquivo caso não exista
             if(!File.Exists(PATH))
             {
                 File.Create(PATH).Close();
             }
-
         }
 
         public void Cadastrar(Produto prod){

@@ -12,6 +12,11 @@ namespace Aulas_27_28_29_30
             p1.Preco = 120f;
 
             p1.Cadastrar(p1);
+
+
+            
+            
+            
         }
     }
 }
