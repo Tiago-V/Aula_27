@@ -1,17 +1,26 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq.Expressions;
 
 namespace Aulas_27_28_29_30
 {
     public class Produto
     {
-        public int Codigo { get; set; } 
+        public Produto(int codigo, string nome, float preco) 
+        {
+            this.Codigo = codigo;
+                this.Nome = nome;
+                this.Preco = preco;
+               
+        }
+                public int Codigo { get; set; } 
         public string Nome { get; set; }    
         public float Preco { get; set; }    
 
         //Caminho
         private const string PATH = "Database/produto.csv";
+
         private const string Pasta = "C:/Users/User/Desktop/EAD SENAI/EAD DEV/Aula_27_28_29_30/Aulas_27_28_29_30/Database/";
 
         public Produto()
@@ -35,10 +44,11 @@ namespace Aulas_27_28_29_30
 
         }
 
-        public List<Produto> Ler()
-        {
             // Criamos lista para guardar o retorno
             List<Produto> prod = new List<Produto>();
+
+        public List<Produto> Ler()
+        {
 
             // Lemos o .csv e separamos um array de linhas 
             string[] linhas = File.ReadAllLines(PATH);
@@ -56,7 +66,6 @@ namespace Aulas_27_28_29_30
 
                 prod.Add(p);
             }
-            
             return prod;
         }
 
@@ -73,6 +82,16 @@ namespace Aulas_27_28_29_30
             return dado.Split("=")[1];
         }
 
+        // DESAFIO: Criar Metódo de Busca por nome, passado como argumento
+        // EXPRESSÃO LAMBDA (x => x.Nome == "nome")
+        public void Buscar(string _nome)
+        {
+            var buscado = prod.Find( x => x.Nome == _nome);
+
+
+            Console.WriteLine($"{buscado.Nome} - {buscado.Preco}");
+        }
+
         //  1   ; sapato ; 34,99
         //Codigo; Produto; Preço
         private string PrepararLinha(Produto p){
@@ -80,6 +99,6 @@ namespace Aulas_27_28_29_30
         }
 
 
-
+        
     }
 }

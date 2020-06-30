@@ -21,6 +21,8 @@ namespace Aulas_27_28_29_30
                 Console.WriteLine( $"R$:{item.Preco} - {item.Nome}" );
             }
 
+            p1.Buscar( "Coca-Cola" );
+
 
         }
     }
