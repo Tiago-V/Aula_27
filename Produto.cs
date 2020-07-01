@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Aulas_27_28_29_30
@@ -44,11 +45,11 @@ namespace Aulas_27_28_29_30
 
         }
 
-            // Criamos lista para guardar o retorno
-            List<Produto> prod = new List<Produto>();
 
         public List<Produto> Ler()
         {
+            // Criamos lista para guardar o retorno
+            List<Produto> prod = new List<Produto>();
 
             // Lemos o .csv e separamos um array de linhas 
             string[] linhas = File.ReadAllLines(PATH);
@@ -66,6 +67,9 @@ namespace Aulas_27_28_29_30
 
                 prod.Add(p);
             }
+
+            prod = prod.OrderBy(z => z.Nome).ToList();
+
             return prod;
         }
 
@@ -84,12 +88,45 @@ namespace Aulas_27_28_29_30
 
         // DESAFIO: Criar Metódo de Busca por nome, passado como argumento
         // EXPRESSÃO LAMBDA (x => x.Nome == "nome")
-        public void Buscar(string _nome)
+
+        /// <summary>
+        /// Filtrar produtos por nome
+        /// </summary>
+        /// <param name="_nome">Inserir nome do produto</param>
+        /// <returns>Retornar todos os produto do nome inserido</returns>
+        public List<Produto> Filtrar(string _nome)
         {
-            var buscado = prod.Find( x => x.Nome == _nome);
+            return Ler().FindAll( x => x.Nome == _nome);
+        }
 
+        /// <summary>
+        /// Remover produtos por lista do arquivo
+        /// </summary>
+        /// <param name="_termo">Termo a ser excluído</param>
+        public void Remover(string _termo)
+        {
+            // Criamos lista de linhas para fazer uma espécie do backup na memória do sistema
+            List<string> linhas = new List<string>();
 
-            Console.WriteLine($"{buscado.Nome} - {buscado.Preco}");
+            using(StreamReader arquivo = new StreamReader(PATH))
+            {
+                string linha;
+                while((linha = arquivo.ReadLine()) != null){
+                    linhas.Add(linha);
+                }
+                // código=2;nome=Tagina;preço=5500
+                linhas.RemoveAll(z => z.Contains(_termo));
+            }
+            
+            // Criamos uma forma de reescrever o arquivo sem as linhas removidas
+            using(StreamWriter output = new StreamWriter(PATH))
+            {
+                foreach(string ln in linhas)
+                {
+                    output.Write(ln+"\n");
+                }
+            }
+
         }
 
         //  1   ; sapato ; 34,99
