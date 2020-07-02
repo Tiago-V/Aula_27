@@ -45,7 +45,10 @@ namespace Aulas_27_28_29_30
 
         }
 
-
+        /// <summary>
+        /// Lê o csv
+        /// </summary>
+        /// <returns>Ler a lista do csv</returns>
         public List<Produto> Ler()
         {
             // Criamos lista para guardar o retorno
@@ -127,6 +130,58 @@ namespace Aulas_27_28_29_30
                 }
             }
 
+            ReescreverCSV(linhas);
+        }
+
+        /// <summary>
+        /// Altera o produto
+        /// </summary>
+        /// <param name="_produtoAlterado">Objeto de produto</param>
+        public void Alterar(Produto _produtoAlterado)
+        {
+             // Criamos lista de linhas para fazer uma espécie do backup na memória do sistema
+            List<string> linhas = new List<string>();
+
+            using(StreamReader arquivo = new StreamReader(PATH))
+            {
+                string linha;
+                while((linha = arquivo.ReadLine()) != null)
+                {
+                    linhas.Add(linha);
+                }
+
+            }
+            // codigo=2;nome=Sprite;preço=4,5
+            // linhas.RemoveAll( z => z.Split(";")[0].Contains( _produtoAlterado.Codigo.ToString() ) );
+
+            // codigo=1;nome=Coca-Cola;preço=5
+            linhas.RemoveAll( z => z.Split(";")[0].Split("=")[1] == _produtoAlterado.Codigo.ToString() );
+
+            // Adicionamos a linha alterada na lista de backup
+            linhas.Add( PrepararLinha( _produtoAlterado ) );
+
+            using(StreamReader arquivo = new StreamReader(PATH))
+            {
+                string linha;
+                while((linha = arquivo.ReadLine()) != null)
+                {
+                    linhas.Add(linha);
+                }
+            }
+
+            ReescreverCSV(linhas);
+
+        }
+
+        private void ReescreverCSV(List<string> lines)
+        {
+             using(StreamWriter output = new StreamWriter(PATH))
+            {
+                foreach(string ln in lines)
+                {
+                    output.Write(ln+"\n");
+                }
+            }
         }
 
         //  1   ; sapato ; 34,99

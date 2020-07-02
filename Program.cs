@@ -8,11 +8,20 @@ namespace Aulas_27_28_29_30
         static void Main(string[] args)
         {
             Produto p1 = new Produto();
-            p1.Codigo = 2;
-            p1.Nome = "Sprite";
-            p1.Preco = 4.5f;
+            p1.Codigo = 1;
+            p1.Nome = "Coca-Cola";
+            p1.Preco = 5f;
 
             p1.Cadastrar(p1);
+            // p1.Remover("Sprite");
+
+            Produto alterado = new Produto();
+
+            alterado.Codigo = 2;
+            alterado.Nome = "Pepsi";
+            alterado.Preco = 5;
+
+            p1.Alterar();
 
             List<Produto> lista = p1.Ler();
             
@@ -21,11 +30,7 @@ namespace Aulas_27_28_29_30
                 Console.WriteLine( $"R$:{item.Preco} - {item.Nome}" );
             }
 
-            System.Console.WriteLine();
-
             p1.Filtrar("Sprite");
-
-            p1.Remover("Coca-Cola");
 
 
         }
