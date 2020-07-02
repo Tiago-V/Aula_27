@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace Aulas_27_28_29_30
 {
-    public class Produto
+    public class Produto : IProduto
     {
         public Produto(int codigo, string nome, float preco) 
         {
@@ -38,7 +38,7 @@ namespace Aulas_27_28_29_30
             }
         }
 
-        public void Cadastrar(Produto prod){
+        public void Adicionar(Produto prod){
 
             string[] linha = new string[] { PrepararLinha(prod) };
             File.AppendAllLines(PATH, linha);
@@ -106,7 +106,7 @@ namespace Aulas_27_28_29_30
         /// Remover produtos por lista do arquivo
         /// </summary>
         /// <param name="_termo">Termo a ser excluído</param>
-        public void Remover(string _termo)
+        public void Deletar(string _termo)
         {
             // Criamos lista de linhas para fazer uma espécie do backup na memória do sistema
             List<string> linhas = new List<string>();
@@ -137,7 +137,7 @@ namespace Aulas_27_28_29_30
         /// Altera o produto
         /// </summary>
         /// <param name="_produtoAlterado">Objeto de produto</param>
-        public void Alterar(Produto _produtoAlterado)
+        public void Atualizar(Produto _produtoAlterado)
         {
              // Criamos lista de linhas para fazer uma espécie do backup na memória do sistema
             List<string> linhas = new List<string>();
@@ -189,8 +189,5 @@ namespace Aulas_27_28_29_30
         private string PrepararLinha(Produto p){
             return $"codigo={p.Codigo};nome={p.Nome};preço={p.Preco}";
         }
-
-
-        
     }
 }
